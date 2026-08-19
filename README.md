@@ -1,8 +1,6 @@
 # LLM Sensitivity Analysis and Mixed-Precision Quantization
 
-This repository provides an end-to-end framework for **Sensitivity Analysis**, **Hessian-based Bit-width Allocation (HAWQ)**, and **Adaptive Mixed-Precision Quantization** for Large Language Models (e.g., LLaMA-3.2, Qwen).
-
-It leverages [AutoRound](https://github.com/intel/auto-round) for low-bit weight quantization (2-bit, 3-bit, 4-bit) and provides analytical tools to measure layer-wise and operator-wise sensitivity via multiplicative perturbation and Hessian gradient proxies.
+This project implements framework for Noise-Based Parameter Importance Estimation for Mixed-Precision Quantization of Large Language Models. It leverages [AutoRound](https://github.com/intel/auto-round) for low-bit weight quantization (2-bit, 3-bit, 4-bit) and provides analytical tools to measure layer-wise and operator-wise sensitivity via multiplicative perturbation and Hessian gradient proxies.
 
 ---
 
@@ -16,7 +14,6 @@ It leverages [AutoRound](https://github.com/intel/auto-round) for low-bit weight
   - [Step 4: Mixed-Precision & Uniform Quantization](#step-4-mixed-precision--uniform-quantization)
   - [Step 5: Model Evaluation](#step-5-model-evaluation)
 - [4. Project Structure](#4-project-structure)
-- [5. Methodology Overview](#5-methodology-overview)
 
 ---
 
@@ -155,9 +152,3 @@ python save_wiki2.py
 
 ---
 
-## 5. Methodology Overview
-
-1. **Multiplicative Perturbation**: Inject zero-mean Gaussian noise $w_{ij} \leftarrow w_{ij} \times (1 + \epsilon)$, where $\epsilon \sim \mathcal{N}(0, \sigma^2)$, to measure output perplexity degradation per operator/layer.
-2. **Hessian Trace Proxy (HAWQ)**: Approximates the diagonal of the Hessian via the squared expectation of backpropagated gradients:
-   $$\text{Sens}(W) \approx \frac{1}{N} \sum_{i=1}^N \|\nabla_W \mathcal{L}_i\|_F^2$$
-3. **AutoRound Optimization**: Optimizes rounding values and scale parameters through gradient-based sign-rounding, minimizing block-wise reconstruction errors.
